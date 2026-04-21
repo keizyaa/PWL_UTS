@@ -12,29 +12,31 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_stok', function (Blueprint $table) {
-            $table->id('stok_id');
+    $table->id('stok_id');
 
-            $table->unsignedBigInteger('barang_id');
-            $table->foreign('barang_id')
-                ->references('barang_id')
-                ->on('m_barang')
-                ->onDelete('cascade');
+    $table->unsignedBigInteger('barang_id');
+    $table->foreign('barang_id')
+        ->references('barang_id')
+        ->on('m_barang')
+        ->onDelete('cascade');
 
-            $table->unsignedBigInteger('supplier_id');
-            $table->foreign('supplier_id')
-                ->references('supplier_id')
-                ->on('m_supplier')
-                ->onDelete('cascade');
+    $table->unsignedBigInteger('supplier_id');
+    $table->foreign('supplier_id')
+        ->references('supplier_id')
+        ->on('m_supplier')
+        ->onDelete('cascade');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('user_id')
-                ->on('m_user')
-                ->onDelete('cascade');
+    $table->unsignedBigInteger('user_id');
+    $table->foreign('user_id')
+        ->references('id')
+        ->on('users')
+        ->onDelete('cascade');
 
-            $table->integer('stok_jumlah');
-            $table->timestamps();
-        });
+    $table->integer('stok_jumlah');
+    $table->dateTime('stok_tanggal');
+
+    $table->timestamps();
+});
     }
 
     /**

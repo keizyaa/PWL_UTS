@@ -18,7 +18,6 @@ class BarangsTable
                 TextColumn::make('barang_kode')->searchable(),
                 TextColumn::make('barang_nama')->searchable(),
                 TextColumn::make('kategori.kategori_nama')->label('Kategori'),
-                TextColumn::make('supplier.supplier_nama')->label('Supplier'),
                 TextColumn::make('harga_jual'),
             ])
             ->filters([
