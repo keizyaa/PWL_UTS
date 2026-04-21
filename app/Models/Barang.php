@@ -27,4 +27,9 @@ class Barang extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
     }
+
+    public function detail()
+{
+    return $this->hasMany(DetailPenjualan::class, 'barang_id');
+}
 }

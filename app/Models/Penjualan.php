@@ -21,4 +21,9 @@ class Penjualan extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function detail()
+{
+    return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
+}
 }
