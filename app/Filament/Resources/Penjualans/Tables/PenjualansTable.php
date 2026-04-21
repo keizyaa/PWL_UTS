@@ -17,6 +17,7 @@ class PenjualansTable
                 TextColumn::make('penjualan_kode'),
                 TextColumn::make('pembeli'),
                 TextColumn::make('user.nama')->label('User'),
+                TextColumn::make('total_harga')->label('Total Harga'),
             ])
             ->filters([
                 //

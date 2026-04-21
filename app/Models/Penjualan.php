@@ -15,6 +15,7 @@ class Penjualan extends Model
         'pembeli',
         'penjualan_kode',
         'penjualan_tanggal',
+        'total_harga',
     ];
 
     public function user()
@@ -23,7 +24,21 @@ class Penjualan extends Model
     }
 
     public function detail()
-{
-    return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
-}
+    {
+        return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($penjualan) {
+            $total = $penjualan->detail->sum(function ($d) {
+                return $d->jumlah * $d->harga;
+            });
+
+            $penjualan->updateQuietly([
+                'total_harga' => $total
+            ]);
+        });
+    }
+    
 }
