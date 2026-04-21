@@ -14,12 +14,7 @@ return new class extends Migration
         Schema::create('t_penjualan', function (Blueprint $table) {
             $table->id('penjualan_id');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('user_id')
-                ->on('m_user')
-                ->onDelete('cascade');
-
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('pembeli', 50);
             $table->string('penjualan_kode', 20);
             $table->dateTime('penjualan_tanggal');
