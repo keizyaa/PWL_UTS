@@ -18,7 +18,7 @@ class StokResource extends Resource
 {
     protected static ?string $model = Stok::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $recordTitleAttribute = 'stok_id';
 
