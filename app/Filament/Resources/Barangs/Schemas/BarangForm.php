@@ -18,11 +18,6 @@ class BarangForm
                     ->relationship('kategori', 'kategori_nama')
                     ->required(),
 
-                Select::make('supplier_id')
-                    ->label('Supplier')
-                    ->relationship('supplier', 'supplier_nama')
-                    ->required(),
-
                 TextInput::make('barang_kode')
                     ->required(),
 
