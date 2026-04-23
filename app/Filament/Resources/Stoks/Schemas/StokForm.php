@@ -32,6 +32,7 @@ class StokForm
             TextInput::make('stok_jumlah')
                 ->numeric()
                 ->required(),
+                
             ]);
     }
 }

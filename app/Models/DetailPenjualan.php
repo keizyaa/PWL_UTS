@@ -31,13 +31,13 @@ class DetailPenjualan extends Model
     // 🔹 EVENT
     protected static function booted()
     {
-        // buat detail 
+        // saat create
         static::created(function ($detail) {
             $detail->updateStok(-$detail->jumlah);
             $detail->updateTotalPenjualan();
         });
 
-        // update detail
+        // sebelum update
         static::updating(function ($detail) {
             $oldJumlah = $detail->getOriginal('jumlah');
             $newJumlah = $detail->jumlah;
@@ -47,38 +47,47 @@ class DetailPenjualan extends Model
             $detail->updateStok($selisih);
         });
 
-        // hasil setelah di update
+        // setelah update
         static::updated(function ($detail) {
             $detail->updateTotalPenjualan();
         });
 
-        // saat dihapus
+        // saat delete
         static::deleted(function ($detail) {
             $detail->updateStok($detail->jumlah);
             $detail->updateTotalPenjualan();
         });
     }
 
-    // function update stok  
+    // 🔹 UPDATE STOK
     public function updateStok($jumlah)
     {
         $stok = Stok::where('barang_id', $this->barang_id)->first();
 
-        if ($stok) {
-            $stok->stok_jumlah += $jumlah;
-            $stok->save();
+        if (!$stok) {
+            throw new \Exception('Data stok tidak ditemukan!');
         }
+
+        $stokBaru = $stok->stok_jumlah + $jumlah;
+
+        if ($stokBaru < 0) {
+            throw new \Exception('Stok tidak mencukupi!');
+        }
+
+        $stok->update([
+            'stok_jumlah' => $stokBaru
+        ]);
     }
 
-    // function update total
+    // update penjualan
     public function updateTotalPenjualan()
     {
         $penjualan = $this->penjualan;
 
         if ($penjualan) {
-            $total = $penjualan->detail->sum(function ($d) {
-                return $d->jumlah * $d->harga;
-            });
+            $total = $penjualan->detail()
+                ->selectRaw('SUM(jumlah * harga) as total')
+                ->value('total') ?? 0;
 
             $penjualan->updateQuietly([
                 'total_harga' => $total
